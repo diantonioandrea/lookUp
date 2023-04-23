@@ -1,6 +1,5 @@
 # lookUp
 
-<!-- Description -->
 Make sure to take a look at the [contributing guidelines](https://github.com/diantonioandrea/lookUp/blob/main/.github/CONTRIBUTING.md).
 
 ## Installation
@@ -9,11 +8,14 @@ Make sure to take a look at the [contributing guidelines](https://github.com/dia
 
 There are some Python modules that need to be installed in order to compile and use **lookUp**.
 
-* pyinstaller: compilation of **lookUp**.
+1. Compilation
+	* pyinstaller: compilation of **openTree**.
+2. Usage
+	* [CLIbrary](https://github.com/diantonioandrea/CLIbrary): outputs.
 
 As a one-liner:
 
-	python3 -m pip install --upgrade pyinstaller
+	python3 -m pip install --upgrade pyinstaller CLIbrary
 
 ### Compiling and installing from source
 
@@ -29,13 +31,22 @@ where PLATFORM must be replaced by:
 based on the platform on which **lookUp** will be compiled.  
 **lookUp** can be then installed[^2] by:
 
-	./lookUp install
+	./lookUp --install
 
 or
 
-	.\lookUp.exe install
+	.\lookUp.exe --install
 
 on Windows.
 
 [^1]: The Makefile for the Windows version is written for [NMAKE](https://learn.microsoft.com/en-gb/cpp/build/reference/nmake-reference?view=msvc-170).
 [^2]: This is the only way to install **lookUp**.
+
+## Usage
+
+By:
+
+	lookUp
+
+you'll get everything you need to know to use **lookUp**.  
+This will also check for updates.
