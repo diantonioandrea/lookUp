@@ -55,9 +55,11 @@ you'll get everything you need to know to use **lookUp**:
 
 	Usage: lookUp file [--all --install -s]
 
+			[--] options:
 			all             Display full output.
 			install         Installs lookUp.
 
+			[-] options:
 			s               [STR] The string that gets searched throughout the file.
 
 This will also check for updates.

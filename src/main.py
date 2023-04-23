@@ -31,13 +31,13 @@ def lookUpMotd():
 def lookUpHelp():
 	options = {"-s": "[STR] The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
 
-	print("Usage: lookUp file [{}]".format(" ".join(sorted([key for key in options]))))
+	print("Usage: lookUp file [{}]\n".format(" ".join(sorted([key for key in options]))))
 
 	# Double dash.
-	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])))
+	print("\t[--] options:\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])) + "\n")
 
 	# Single dash.
-	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
+	print("\t[-] options:\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
 
 # Parses options in sys.argv.
 sdOpts, ddOpts = lookUp.parser(sys.argv)
