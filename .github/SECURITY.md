@@ -1,5 +1,7 @@
 # Security Policy
 
+[![CodeQL](https://github.com/diantonioandrea/lookUp/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/diantonioandrea/lookUp/actions/workflows/github-code-scanning/codeql)
+
 ## Supported Versions
 
 Keeping **lookUp** up to date is the best way to protect yourself against security vulnerabilities, so please make sure you're keeping it up to date.  
