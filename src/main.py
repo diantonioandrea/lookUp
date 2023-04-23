@@ -34,10 +34,10 @@ def lookUpHelp():
 	print("Usage: lookUp file [{}]".format(" ".join(sorted([key for key in options]))))
 
 	# Double dash.
-	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])))
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])))
 
 	# Single dash.
-	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
 
 # Parses options in sys.argv.
 sdOpts, ddOpts = lookUp.parser(sys.argv)
