@@ -1,0 +1,16 @@
+# MAKE COMPILE
+
+build
+dist
+*.spec
+release
+
+lookUp
+lookUp.exe
+
+# OTHERS
+
+.vscode
+
+**/__pycache__
+**/.DS_Store
