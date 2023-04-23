@@ -1,5 +1,6 @@
 # lookUp
 
+`cat FILE | grep STRING` reimagined.  
 Make sure to take a look at the [contributing guidelines](https://github.com/diantonioandrea/lookUp/blob/main/.github/CONTRIBUTING.md).
 
 ## Installation
@@ -51,6 +52,7 @@ By:
 you'll get everything you need to know to use **lookUp**:
 
 	 rolling  lookUp 
+	cat FILE | grep STRING reimagined.
 	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
 
 	Usage: lookUp file [--all --install -s]

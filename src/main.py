@@ -23,7 +23,7 @@ def executable(filePath):
 
 def lookUpMotd():
 	print("\n" + Back.MAGENTA + Fore.WHITE + " " + version + " " + Back.WHITE + Fore.MAGENTA + " " + name + " " + Style.RESET_ALL) if production else print("\n" + Back.WHITE + Fore.BLUE + " " + name + " " + Style.RESET_ALL)
-	# print("")
+	print(Style.BRIGHT + "cat FILE | grep STRING" + Style.RESET_ALL  + " reimagined.")
 	print("Developed by " + Style.BRIGHT + Fore.MAGENTA + "Andrea Di Antonio" + Style.RESET_ALL + ", more on " + Style.BRIGHT + "https://github.com/diantonioandrea/" + name + Style.RESET_ALL + "\n")
 
 # HELP
@@ -38,6 +38,7 @@ def lookUpHelp():
 
 	# Single dash.
 	print("\t[-] options:\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
+
 
 # Parses options in sys.argv.
 sdOpts, ddOpts = lookUp.parser(sys.argv)
