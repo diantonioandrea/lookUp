@@ -10,7 +10,7 @@ Make sure to take a look at the [contributing guidelines](https://github.com/dia
 There are some Python modules that need to be installed in order to compile and use **lookUp**.
 
 1. Compilation
-	* pyinstaller: compilation of **openTree**.
+	* pyinstaller: compilation of **lookUp**.
 2. Usage
 	* [CLIbrary](https://github.com/diantonioandrea/CLIbrary): outputs.
 
@@ -55,13 +55,13 @@ you'll get everything you need to know to use **lookUp**:
 	cat FILE | grep STRING reimagined.
 	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
 
-	Usage: lookUp file [--all  --install  -s STR]
+	Usage: lookUp file [--all  --install  --noCase  --uninstall  -s STR]
 
-			[--] options:
-			all             Display full output.
-			install         Installs lookUp.
+			--all          Display full output.
+			--install      Installs lookUp.
+			--noCase       Disables case sensitivity.
+			--uninstall    Uninstalls lookUp.
 
-			[-] options:
-			s STR           The string that gets searched throughout the file.
+			-s STR         The string that gets searched throughout the file.
 
 This will also check for updates.

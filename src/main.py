@@ -22,7 +22,7 @@ def executable(filePath):
 # MOTD
 
 def lookUpMotd():
-	print("\n" + Back.MAGENTA + Fore.WHITE + " " + version + " " + Back.WHITE + Fore.MAGENTA + " " + name + " " + Style.RESET_ALL) if production else print("\n" + Back.WHITE + Fore.BLUE + " " + name + " " + Style.RESET_ALL)
+	print("\n" + Back.MAGENTA + Fore.WHITE + " " + version + " " + Back.WHITE + Fore.MAGENTA + " " + name + " " + Style.RESET_ALL) if production else print("\n" + Back.WHITE + Fore.MAGENTA + " " + name + " " + Style.RESET_ALL)
 	print(Style.BRIGHT + "cat FILE | grep STRING" + Style.RESET_ALL  + " reimagined.")
 	print("Developed by " + Style.BRIGHT + Fore.MAGENTA + "Andrea Di Antonio" + Style.RESET_ALL + ", more on " + Style.BRIGHT + "https://github.com/diantonioandrea/" + name + Style.RESET_ALL + "\n")
 
@@ -30,14 +30,17 @@ def lookUpMotd():
 
 def lookUpHelp():
 	options = {"-s STR": "The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
+	options.update({"--noCase": "Disables case sensitivity.", "--uninstall": "Uninstalls lookUp."})
 
-	print("Usage: lookUp file [{}]\n".format("  ".join(sorted([key for key in options]))))
+	spaces = max([len(key) + 4 for key in options])
+
+	print("Usage: lookUp file [{}]".format("  ".join(sorted([key for key in options]))))
 
 	# Double dash.
-	print("\t[--] options:\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])) + "\n")
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + " " * (spaces - len(key)) + options[key] for key in options if "--" in key])))
 
 	# Single dash.
-	print("\t[-] options:\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + " " * (spaces - len(key)) + options[key] for key in options if "--" not in key])) + "\n")
 
 
 # Parses options in sys.argv.
@@ -46,7 +49,7 @@ sdOpts, ddOpts = lookUp.parser(sys.argv)
 name = "lookUp"
 version = "rolling"
 production = True
-if name not in "".join(sys.argv): # Local testing.
+if name.lower() not in "".join(sys.argv).lower(): # Local testing (python3 src/main.py).
 	production = False
 
 system = platform.system()
@@ -102,6 +105,30 @@ if "install" in ddOpts and production:
 	finally:
 		sys.exit(0)
 
+# UNINSTALLATION
+
+if "uninstall" in ddOpts and production:
+	lookUpMotd()
+
+	try:
+		shutil.rmtree(installPath)
+		CLIbrary.output({"type": "verbose", "string": name.upper() + " UNINSTALLED SUCCESFULLY FROM " + installPath})
+
+		if name in path:
+			CLIbrary.output({"type": "warning", "string": "MAKE SURE TO REMOVE ITS INSTALLATION DIRECTORY FROM PATH", "after": "\n"})
+		
+		else:
+			print() # Blank space needed.
+	
+	except:
+		CLIbrary.output({"type": "error", "string": "UNINSTALLATION ERROR", "after": "\n"})
+		sys.exit(-1)
+
+	finally:
+		sys.exit(0)
+
+# MAIN PROGRAM.
+
 try: # Looks for file name.
 	filename = [inst for inst in sys.argv if inst[0] != "-" and inst[0] + inst[1] != "-"][1]
 
@@ -128,7 +155,6 @@ except(IndexError):
 	lookUpHelp()
 	sys.exit(0)
 
-# MAIN PROGRAM.
 
 try: # Tries to open the specified file.
 	file = open(filename, "r+")
@@ -146,6 +172,11 @@ except:
 # Searches for "-s string".
 if "s" in sdOpts:
 	string = sdOpts["s"]
+
+	if "noCase" in ddOpts:
+		string = string.lower()
+		content = content.lower()
+
 	content = content.replace(string, Fore.RED + string + Fore.RESET)
 	searched = True
 
@@ -154,7 +185,7 @@ else:
 
 # Numbers of "-s string" found in file.
 if searched:
-	searchResult = "Found {} istance(s) of \"{}\" inside \"{}\"".format(content.count(string), string, file.name)
+	searchResult = "Found {} istance(s) of \"{}\" inside \"{}\"{}.".format(content.count(string), string, file.name, ", case ignored" if "noCase" in ddOpts else "")
 	print(searchResult + "\n" + "-" * len(searchResult))
 
 # Prints the whole content if:
