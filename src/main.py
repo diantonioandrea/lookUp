@@ -29,12 +29,18 @@ def lookUpMotd():
 # HELP
 
 def lookUpHelp():
-	pass
+	options = {"-s": "[STR] The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
+
+	print("Usage: lookUp file [{}]".format(" ".join(sorted([key for key in options]))))
+
+	# Double dash.
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])))
+
+	# Single dash.
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" not in key])) + "\n")
 
 # Parses options in sys.argv.
 sdOpts, ddOpts = lookUp.parser(sys.argv)
-if "dark" in sdOpts:
-	CLIbrary.style.setting_darkMode = True
 
 name = "lookUp"
 version = "rolling"
@@ -120,6 +126,8 @@ except(IndexError):
 			pass
 
 	sys.exit(0)
+
+# MAIN PROGRAM.
 
 try: # Tries to open the specified file.
 	file = open(filename, "r+")

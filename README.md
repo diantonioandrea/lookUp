@@ -48,5 +48,16 @@ By:
 
 	lookUp
 
-you'll get everything you need to know to use **lookUp**.  
+you'll get everything you need to know to use **lookUp**:
+
+	 rolling  lookUp 
+	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
+
+	Usage: lookUp file [--all --install -s]
+
+			all             Display full output.
+			install         Installs lookUp.
+
+			s               [STR] The string that gets searched throughout the file.
+
 This will also check for updates.
