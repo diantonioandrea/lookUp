@@ -91,6 +91,9 @@ if "install" in ddOpts and production:
 
 		if name not in path:
 			CLIbrary.output({"type": "warning", "string": "MAKE SURE TO ADD ITS INSTALLATION DIRECTORY TO PATH TO USE IT ANYWHERE", "after": "\n"})
+		
+		else:
+			print() # Blank space needed.
 	
 	except:
 		CLIbrary.output({"type": "error", "string": "INSTALLATION ERROR", "after": "\n"})
