@@ -107,7 +107,6 @@ try: # Looks for file name.
 
 except(IndexError):
 	lookUpMotd()
-	lookUpHelp()
 
 	# UPDATE NOTIFICATION
 	# Does not check for updates "while working".
@@ -126,6 +125,7 @@ except(IndexError):
 		except:
 			pass
 
+	lookUpHelp()
 	sys.exit(0)
 
 # MAIN PROGRAM.
