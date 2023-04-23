@@ -15,13 +15,14 @@ you'll get everything you need to know to use **lookUp**:
 	cat FILE | grep STRING reimagined.
 	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
 
-	Usage: lookUp file [--all  --install  --noCase  --uninstall  -s STR]
+	Usage: lookUp file [--all  --install  --noCase  --uninstall  -r STR  -s STR]
 
 			--all          Display full output.
 			--install      Installs lookUp.
 			--noCase       Disables case sensitivity.
 			--uninstall    Uninstalls lookUp.
 
+			-r STR         The pattern for a regular expression search.
 			-s STR         The string that gets searched throughout the file.
 
 This will also check for updates.
@@ -35,11 +36,12 @@ There are some Python modules that need to be installed in order to compile and 
 1. Compilation
 	* pyinstaller: compilation of **lookUp**.
 2. Usage
+	* regex: Regular expressions.
 	* [CLIbrary](https://github.com/diantonioandrea/CLIbrary): outputs.
 
 As a one-liner:
 
-	python3 -m pip install --upgrade pyinstaller CLIbrary
+	python3 -m pip install --upgrade pyinstaller regex CLIbrary
 
 ### Compiling and installing from source
 

@@ -1,7 +1,7 @@
 # lookUp
 
 import lookUp
-import os, sys, shutil, platform, requests, CLIbrary
+import os, sys, shutil, platform, requests, regex, CLIbrary
 from colorama import Fore, Back, Style
 from datetime import datetime
 
@@ -30,7 +30,7 @@ def lookUpMotd():
 
 def lookUpHelp():
 	options = {"-s STR": "The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
-	options.update({"--noCase": "Disables case sensitivity.", "--uninstall": "Uninstalls lookUp."})
+	options.update({"--noCase": "Disables case sensitivity.", "--uninstall": "Uninstalls lookUp.", "-r STR": "The pattern for a regular expression search."})
 
 	spaces = max([len(key) + 4 for key in options])
 
@@ -130,7 +130,7 @@ if "uninstall" in ddOpts and production:
 # MAIN PROGRAM.
 
 try: # Looks for file name.
-	filename = [inst for inst in sys.argv if inst[0] != "-" and inst[0] + inst[1] != "-"][1]
+	filename = [inst for inst in sys.argv if inst[0] != "-" and ((inst[0] + inst[1] != "-") if len(inst) > 1 else False)][1]
 
 except(IndexError):
 	lookUpMotd()
@@ -169,32 +169,82 @@ except:
 	CLIbrary.output({"type": "error", "string": "CANNOT OPEN OR READ FILE"})
 	sys.exit(-2)
 
-# Searches for "-s string".
-if "s" in sdOpts:
-	string = sdOpts["s"]
+if "noCase" in ddOpts:
+	content = content.lower()
 
-	if "noCase" in ddOpts:
-		string = string.lower()
-		content = content.lower()
+# Colours.
+sColour = Fore.RED
+sColourName = " RED"
+rColour = Fore.CYAN
+rColourName = " CYAN"
 
-	content = content.replace(string, Fore.RED + string + Fore.RESET)
-	searched = True
+# Results of search and regexp.
+words = []
 
-else:
-	searched = False
+try:
+	# Searches for "-s string".
+	if "s" in sdOpts:
+		sWord = sdOpts["s"]
+		words += [sWord]
 
-# Numbers of "-s string" found in file.
-if searched:
-	searchResult = "Found {} istance(s) of \"{}\" inside \"{}\"{}.".format(content.count(string), string, file.name, ", case ignored" if "noCase" in ddOpts else "")
-	print(searchResult + "\n" + "-" * len(searchResult))
+		# Case sensitivity search.
+		if "noCase" in ddOpts:
+			sWord = sWord.lower()
 
-# Prints the whole content if:
+		# Colours content.
+		sFlag = True
+		content = content.replace(sWord, sColour + sWord + Fore.RESET)
+
+		# Result.
+		searchResult = "SEARCH: found {} istance(s) of \"{}\" inside \"{}\"{}".format(content.count(sWord), sWord, file.name, ", case ignored." if "noCase" in ddOpts else ".")
+		print(searchResult + " |" + sColour + sColourName + Fore.RESET + "\n" + "-" * len(searchResult))
+
+	else:
+		sFlag = False
+
+except:
+	CLIbrary.output({"type": "error", "string": "SEARCH ERROR"})
+	sys.exit(-3)
+
+try:
+	# Searches for "-r pattern".
+	if "r" in sdOpts:
+		# Case sensitivity regexp.
+		if "noCase" in ddOpts:
+			pattern = regex.compile(sdOpts["r"], regex.IGNORECASE)
+
+		else:
+			pattern = regex.compile(sdOpts["r"])
+
+		# Finds all matches.
+		rWords = regex.findall(pattern, content)
+		words += rWords
+
+		# Colours content.
+		rFlag = True
+		for rWord in rWords:
+			content = content.replace(rWord, rColour + rWord + Fore.RESET)
+
+		# Result.
+		regularResult = "REGEXP: found {} match(es) of \"{}\" inside \"{}\"{} {}".format(sum([content.count(rString) for rString in rWords]), sdOpts["r"], file.name, ", case ignored:" if "noCase" in ddOpts else ":", ", ".join(set(rWords)) + "." if len(rWords) else "N/A.")
+		print(regularResult + " |" + rColour + rColourName + Fore.RESET +  "\n" + "-" * len(regularResult))
+
+
+	else:
+		rFlag = False
+
+except:
+	CLIbrary.output({"type": "error", "string": "REGEXP ERROR"})
+	sys.exit(-4)
+
+# Prints the whole content either if:
 # - The file has not been searched.
 # - the user specified "--all"
-if not searched or "all" in ddOpts:
+if (not sFlag and not rFlag) or "all" in ddOpts:
 	print(content)
+	sys.exit(0)
 
-# Prints only the lines where "-s string" has been found.
+# Prints only the lines where "-s string" and "-r pattern" has been found.
 else:
 	lines = content.split("\n")
-	print("\n".join(["{}: ".format(lines.index(line) + 1) + line for line in lines if string in line]))
+	print("\n".join(["{}: ".format(lines.index(line) + 1) + line for line in lines if True in [word in line for word in words]]))

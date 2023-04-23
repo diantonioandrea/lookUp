@@ -6,7 +6,7 @@ def parser(instructions: list) -> dict: # Parses the options contained in a list
 	ddOpts = list()
 
 	for inst in instructions:
-		if inst[0] + inst[1] == "--":
+		if (inst[0] + inst[1] == "--") if len(inst) > 1 else False:
 			ddOpts.append(inst.replace("--", ""))
 		
 		elif inst[0] == "-" and instructions.index(inst) < len(instructions) - 1:
