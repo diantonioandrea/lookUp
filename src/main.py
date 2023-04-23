@@ -29,9 +29,9 @@ def lookUpMotd():
 # HELP
 
 def lookUpHelp():
-	options = {"-s": "[STR] The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
+	options = {"-s STR": "The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
 
-	print("Usage: lookUp file [{}]\n".format(" ".join(sorted([key for key in options]))))
+	print("Usage: lookUp file [{}]\n".format("  ".join(sorted([key for key in options]))))
 
 	# Double dash.
 	print("\t[--] options:\n\t" + "\n\t".join(sorted([Style.BRIGHT + key.replace("-", "") + Style.RESET_ALL + "\t\t" + options[key] for key in options if "--" in key])) + "\n")

@@ -55,13 +55,13 @@ you'll get everything you need to know to use **lookUp**:
 	cat FILE | grep STRING reimagined.
 	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
 
-	Usage: lookUp file [--all --install -s]
+	Usage: lookUp file [--all  --install  -s STR]
 
 			[--] options:
 			all             Display full output.
 			install         Installs lookUp.
 
 			[-] options:
-			s               [STR] The string that gets searched throughout the file.
+			s STR           The string that gets searched throughout the file.
 
 This will also check for updates.
