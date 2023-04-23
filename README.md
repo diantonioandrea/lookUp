@@ -3,6 +3,29 @@
 `cat FILE | grep STRING` reimagined.  
 Make sure to take a look at the [contributing guidelines](https://github.com/diantonioandrea/lookUp/blob/main/.github/CONTRIBUTING.md).
 
+## Usage
+
+By:
+
+	lookUp
+
+you'll get everything you need to know to use **lookUp**:
+
+	 rolling  lookUp 
+	cat FILE | grep STRING reimagined.
+	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
+
+	Usage: lookUp file [--all  --install  --noCase  --uninstall  -s STR]
+
+			--all          Display full output.
+			--install      Installs lookUp.
+			--noCase       Disables case sensitivity.
+			--uninstall    Uninstalls lookUp.
+
+			-s STR         The string that gets searched throughout the file.
+
+This will also check for updates.
+
 ## Installation
 
 ### Prerequisites
@@ -42,26 +65,3 @@ on Windows.
 
 [^1]: The Makefile for the Windows version is written for [NMAKE](https://learn.microsoft.com/en-gb/cpp/build/reference/nmake-reference?view=msvc-170).
 [^2]: This is the only way to install **lookUp**.
-
-## Usage
-
-By:
-
-	lookUp
-
-you'll get everything you need to know to use **lookUp**:
-
-	 rolling  lookUp 
-	cat FILE | grep STRING reimagined.
-	Developed by Andrea Di Antonio, more on https://github.com/diantonioandrea/lookUp
-
-	Usage: lookUp file [--all  --install  --noCase  --uninstall  -s STR]
-
-			--all          Display full output.
-			--install      Installs lookUp.
-			--noCase       Disables case sensitivity.
-			--uninstall    Uninstalls lookUp.
-
-			-s STR         The string that gets searched throughout the file.
-
-This will also check for updates.
