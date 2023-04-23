@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Keeping **lookUp** up to date is the best way to protect yourself against security vulnerabilities, so please make sure you're keeping it up to date.
+Keeping **lookUp** up to date is the best way to protect yourself against security vulnerabilities, so please make sure you're keeping it up to date.  
 Every reported vulnerability will be solved and an update will be issued.
 
 ## Reporting a Vulnerability
