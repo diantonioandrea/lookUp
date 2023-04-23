@@ -244,7 +244,7 @@ if (not sFlag and not rFlag) or "all" in ddOpts:
 	print(content)
 	sys.exit(0)
 
-# Prints only the lines where "-s string" and "-r pattern" has been found.
+# Prints only the lines where "-s string" and "-r pattern" have been found.
 else:
 	lines = content.split("\n")
 	print("\n".join(["{}: ".format(lines.index(line) + 1) + line for line in lines if True in [word in line for word in words]]))
