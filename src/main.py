@@ -4,6 +4,7 @@ import lookUp
 import os, sys, shutil, platform, requests, regex, CLIbrary
 from colorama import Fore, Back, Style
 from datetime import datetime
+from bs4 import BeautifulSoup
 
 # ---
 # From an answer of Ciro Santilli on https://stackoverflow.com/questions/12791997/how-do-you-do-a-simple-chmod-x-from-within-python
@@ -29,18 +30,19 @@ def lookUpMotd():
 # HELP
 
 def lookUpHelp():
-	options = {"-s STR": "The string that gets searched throughout the file.", "--all": "Display full output.", "--install": "Installs lookUp."}
+	options = {"-s FILE": "#Uses the specified file as a source.", "-w LINK": "#Uses the specified web page as a source."}
+	options.update({"-s STR": "The string that gets searched throughout the source.", "--all": "Display full output.", "--install": "Installs lookUp."})
 	options.update({"--noCase": "Disables case sensitivity.", "--uninstall": "Uninstalls lookUp.", "-r STR": "The pattern for a regular expression search."})
 
 	spaces = max([len(key) + 4 for key in options])
 
-	print("Usage: lookUp file [{}]".format("  ".join(sorted([key for key in options]))))
+	print("Usage: lookUp " + Style.BRIGHT + "OPTIONS" + Style.RESET_ALL)
 
 	# Double dash.
 	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + " " * (spaces - len(key)) + options[key] for key in options if "--" in key])))
 
 	# Single dash.
-	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + key + Style.RESET_ALL + " " * (spaces - len(key)) + options[key] for key in options if "--" not in key])) + "\n")
+	print("\n\t" + "\n\t".join(sorted([Style.BRIGHT + (key if "#" not in options[key] else Fore.RED + key) + Style.RESET_ALL + " " * (spaces - len(key)) + options[key].replace("#", "") for key in options if "--" not in key])) + "\n")
 
 
 # Parses options in sys.argv.
@@ -129,10 +131,7 @@ if "uninstall" in ddOpts and production:
 
 # MAIN PROGRAM.
 
-try: # Looks for file name.
-	filename = [inst for inst in sys.argv if inst[0] != "-" and ((inst[0] + inst[1] != "-") if len(inst) > 1 else False)][1]
-
-except(IndexError):
+if len(sys.argv) == 1:
 	lookUpMotd()
 
 	# UPDATE NOTIFICATION
@@ -156,18 +155,37 @@ except(IndexError):
 	sys.exit(0)
 
 
-try: # Tries to open the specified file.
-	file = open(filename, "r+")
-	content = file.read()
-	file.close()
+if "f" in sdOpts:
+	try: # Tries to open the specified file.
+		file = open(sdOpts["f"], "r+")
+		content = file.read()
+		file.close()
 
-except(FileNotFoundError):
-	CLIbrary.output({"type": "error", "string": "FILE NOT FOUND"})
+		source = file.name
+
+	except(FileNotFoundError):
+		CLIbrary.output({"type": "error", "string": "FILE NOT FOUND"})
+		sys.exit(-1)
+
+	except:
+		CLIbrary.output({"type": "error", "string": "CANNOT OPEN OR READ FILE"})
+		sys.exit(-1)
+
+elif "w" in sdOpts:
+	try: # Tries to open the specified link.
+		request = requests.get(sdOpts["w"])
+		html = request.content.decode()
+		content = BeautifulSoup(html, "html.parser").get_text()
+		
+		source = request.url
+
+	except:
+		CLIbrary.output({"type": "error", "string": "LINK ERROR"})
+		sys.exit(-1)
+
+else:
+	CLIbrary.output({"type": "error", "string": "MISSING SOURCE"})
 	sys.exit(-1)
-
-except:
-	CLIbrary.output({"type": "error", "string": "CANNOT OPEN OR READ FILE"})
-	sys.exit(-2)
 
 if "noCase" in ddOpts:
 	content = content.lower()
@@ -181,30 +199,30 @@ rColourName = " CYAN"
 # Results of search and regexp.
 words = []
 
-try:
-	# Searches for "-s string".
-	if "s" in sdOpts:
-		sWord = sdOpts["s"]
-		words += [sWord]
+# try:
+# Searches for "-s string".
+if "s" in sdOpts:
+	sWord = sdOpts["s"]
+	words += [sWord]
 
-		# Case sensitivity search.
-		if "noCase" in ddOpts:
-			sWord = sWord.lower()
+	# Case sensitivity search.
+	if "noCase" in ddOpts:
+		sWord = sWord.lower()
 
-		# Colours content.
-		sFlag = True
-		content = content.replace(sWord, sColour + sWord + Fore.RESET)
+	# Colours content.
+	sFlag = True
+	content = content.replace(sWord, sColour + sWord + Fore.RESET)
 
-		# Result.
-		searchResult = "SEARCH: found {} istance(s) of \"{}\" inside \"{}\"{}".format(content.count(sWord), sWord, file.name, ", case ignored." if "noCase" in ddOpts else ".")
-		print(searchResult + " |" + sColour + sColourName + Fore.RESET + "\n" + "-" * len(searchResult))
+	# Result.
+	searchResult = "SEARCH: found {} istance(s) of \"{}\" inside \"{}\"{}".format(content.count(sWord), sWord, source, ", case ignored." if "noCase" in ddOpts else ".")
+	print(searchResult + " |" + sColour + sColourName + Fore.RESET + "\n" + "-" * len(searchResult))
 
-	else:
-		sFlag = False
+else:
+	sFlag = False
 
-except:
-	CLIbrary.output({"type": "error", "string": "SEARCH ERROR"})
-	sys.exit(-3)
+# except:
+# 	CLIbrary.output({"type": "error", "string": "SEARCH ERROR"})
+# 	sys.exit(-2)
 
 try:
 	# Searches for "-r pattern".
@@ -226,7 +244,7 @@ try:
 			content = content.replace(rWord, rColour + rWord + Fore.RESET)
 
 		# Result.
-		regularResult = "REGEXP: found {} match(es) of \"{}\" inside \"{}\"{} {}".format(sum([content.count(rString) for rString in rWords]), sdOpts["r"], file.name, ", case ignored:" if "noCase" in ddOpts else ":", ", ".join(set(rWords)) + "." if len(rWords) else "N/A.")
+		regularResult = "REGEXP: found {} match(es) of \"{}\" inside \"{}\"{} {}".format(sum([content.count(rString) for rString in rWords]), sdOpts["r"], source, ", case ignored:" if "noCase" in ddOpts else ":", ", ".join(set(rWords)) + "." if len(rWords) else "N/A.")
 		print(regularResult + " |" + rColour + rColourName + Fore.RESET +  "\n" + "-" * len(regularResult))
 
 
@@ -235,10 +253,10 @@ try:
 
 except:
 	CLIbrary.output({"type": "error", "string": "REGEXP ERROR"})
-	sys.exit(-4)
+	sys.exit(-3)
 
 # Prints the whole content either if:
-# - The file has not been searched.
+# - The source has not been searched.
 # - the user specified "--all"
 if (not sFlag and not rFlag) or "all" in ddOpts:
 	print(content)
@@ -247,4 +265,4 @@ if (not sFlag and not rFlag) or "all" in ddOpts:
 # Prints only the lines where "-s string" and "-r pattern" have been found.
 else:
 	lines = content.split("\n")
-	print("\n".join(["{}: ".format(lines.index(line) + 1) + line for line in lines if True in [word in line for word in words]]))
+	print("\n".join([(str(lines.index(line) + 1) + "\t" if "w" not in sdOpts else "") + line for line in lines if True in [word in line for word in words]]))
