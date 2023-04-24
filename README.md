@@ -80,7 +80,7 @@ on Windows.
 
 Here follows some examples for **lookUp**.  
 
-### Printing the content of [lookUp/Makefile](https://github.com/diantonioandrea/lookUp/blob/main/Makefile).
+### Printing the content of [lookUp/Makefile](https://github.com/diantonioandrea/lookUp/blob/main/Makefile).
 
 	[diantonioandrea@GitHub/lookUp]: lookUp Makefile 
 	unix: # Linux and macOS
