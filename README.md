@@ -48,7 +48,7 @@ clean: # Linux and macOS only
         rm -rf *.spec lookUp
 ```
 
-Searching for the word "Copyright" word in [lookUp/LICENSE](https://github.com/diantonioandrea/lookUp/blob/main/LICENSE).
+Searching for the word "Copyright" in [lookUp/LICENSE](https://github.com/diantonioandrea/lookUp/blob/main/LICENSE).
 ```
 idk[diantonioandrea@GitHub/lookUp]: lookUp LICENSE -s Copyright
 SEARCH: found 4 istance(s) of "Copyright" inside "LICENSE". | RED
