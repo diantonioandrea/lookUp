@@ -2,7 +2,7 @@
 
 `cat FILE | grep STRING` reimagined.  
 
-**lookUp** is a command line utility written in Python which allows you to quickly and easily print the contents of files and webpages, and search through them using a string or regex search.  
+**lookUp** is an intuitive, cross-platform command line utility written in Python which allows you to quickly and easily print the contents of files and webpages, search through them using a string or regex search, and highlight the search results for easy identification.  
 
 Make sure to take a look at the [contributing guidelines](https://github.com/diantonioandrea/lookUp/blob/main/.github/CONTRIBUTING.md) and at the [examples](#examples).
 
