@@ -27,6 +27,50 @@ you'll get everything you need to know to use **lookUp**:
 
 This will also check for updates.
 
+### Examples.
+
+Here follows some examples for **lookUp**.  
+
+Printing the content of [lookUp/Makefile](https://github.com/diantonioandrea/lookUp/blob/main/Makefile).
+
+```
+[diantonioandrea@GitHub/lookUp]: lookUp Makefile 
+unix: # Linux and macOS
+        pyinstaller --onefile --console src/main.py
+        mv dist/main lookUp
+
+windows: # Windows
+        pyinstaller --onefile --console .\src\main.py
+        move .\dist\main.exe .\lookUp.exe
+
+clean: # Linux and macOS only
+        rm -rf dist build data src/__pycache__ .vscode
+        rm -rf *.spec lookUp
+```
+
+Searching for the word "Copyright" word in [lookUp/LICENSE](https://github.com/diantonioandrea/lookUp/blob/main/LICENSE).
+```
+idk[diantonioandrea@GitHub/lookUp]: lookUp LICENSE -s Copyright
+SEARCH: found 4 istance(s) of "Copyright" inside "LICENSE". | RED
+-----------------------------------------------------------
+4:  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+77:   "Copyright" also means copyright-like laws that apply to other kinds of
+635:     Copyright (C) <year>  <name of author>
+655:     <program>  Copyright (C) <year>  <name of author>
+```
+
+Simple regex example in [lookUp/.gihub/CODE_OF_CONDUCT.md](https://github.com/diantonioandrea/lookUp/blob/main/.github/CODE_OF_CONDUCT.md)
+```
+[diantonioandrea@GitHub/lookUp]: lookUp .github/CODE_OF_CONDUCT.md -r "m..l"  
+REGEXP: found 11 match(es) of "m..l" inside ".github/CODE_OF_CONDUCT.md": mptl, mful, mail. | CYAN
+-------------------------------------------------------------------------------------------
+34: * Publishing others' private information, such as a physical or email
+44: or harmful.
+55: Examples of representing our community include using an official e-mail address,
+63: mail@diantonioandrea.com.
+64: All complaints will be reviewed and investigated promptly and fairly.
+```
+
 ## Installation
 
 ### Prerequisites
