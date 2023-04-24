@@ -76,11 +76,11 @@ on Windows.
 [^1]: The Makefile for the Windows version is written for [NMAKE](https://learn.microsoft.com/en-gb/cpp/build/reference/nmake-reference?view=msvc-170).
 [^2]: This is the only way to install **lookUp**.
 
-## Examples.
+## Examples
 
 Here follows some examples for **lookUp**.  
 
-### Printing the content of [lookUp/Makefile](https://github.com/diantonioandrea/lookUp/blob/main/Makefile).
+### Printing the content of [lookUp/Makefile](https://github.com/diantonioandrea/lookUp/blob/main/Makefile)
 
 	[diantonioandrea@GitHub/lookUp]: lookUp Makefile 
 	unix: # Linux and macOS
@@ -95,7 +95,7 @@ Here follows some examples for **lookUp**.
 			rm -rf dist build data src/__pycache__ .vscode
 			rm -rf *.spec lookUp
 
-### Searching for the word "lookUp" word in [lookUp's security policy](https://github.com/diantonioandrea/lookUp/security/policy).
+### Searching for the word "lookUp" word in [lookUp's security policy](https://github.com/diantonioandrea/lookUp/security/policy)
 
 	[diantonioandrea@GitHub/lookUp]: python src/main.py -w https://github.com/diantonioandrea/lookUp/security/policy -s lookUp
 	SEARCH: found 4 istance(s) of "lookUp" inside "https://github.com/diantonioandrea/lookUp/security/policy". | RED
