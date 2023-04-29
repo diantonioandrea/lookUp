@@ -1,3 +1,5 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/diantonioandrea/lookUp)
+
 # lookUp
 
 `grep STRING FILE` reimagined.  
